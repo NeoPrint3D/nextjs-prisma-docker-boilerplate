@@ -1,4 +1,4 @@
-# NextJS + Docker Compose + TailwindCSS + Prisma + MySQL
+# NextJS + Prisma + MySQL + Docker Compose Boilerplate
 
 Description:
 

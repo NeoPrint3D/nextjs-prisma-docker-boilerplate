@@ -14,7 +14,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV DATABASE_URL="mysql://root:password@localhost:3306/prisma?schema=public"
 RUN npx prisma generate          
 RUN npm run build
 
@@ -34,7 +33,6 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --chown=nextjs:nodejs prisma ./prisma/               
-COPY --chown=nextjs:nodejs docker-bootstrap-app.sh ./
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000

@@ -12,7 +12,7 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - mynetwork
-
+      
   nextjs:
     build:
       context: .

@@ -8,11 +8,8 @@ services:
     volumes:
       - mysqldata_master:/var/lib/mysql
       - ./mysql/scripts/setup-master.sh:/docker-entrypoint-initdb.d/setup-master.sh
-    environment:
-      - MYSQL_ROOT_PASSWORD=S3cret
-      - MYSQL_USER=my_db_user
-      - MYSQL_DATABASE=my_db
-      - MYSQL_PASSWORD=S3cret
+    env_file:
+      - .env.database
     networks:
       - mynetwork
     command: >
@@ -32,11 +29,8 @@ services:
     volumes:
       - mysqldata_slave1:/var/lib/mysql
       - ./mysql/scripts/setup-slave.sh:/docker-entrypoint-initdb.d/setup-slave.sh
-    environment:
-      - MYSQL_ROOT_PASSWORD=S3cret
-      - MYSQL_USER=my_db_user
-      - MYSQL_DATABASE=my_db
-      - MYSQL_PASSWORD=S3cret
+    env_file:
+      - .env.database     
     networks:
       - mynetwork
     command: >
@@ -55,11 +49,8 @@ services:
     volumes:
       - mysqldata_slave2:/var/lib/mysql
       - ./mysql/scripts/setup-slave.sh:/docker-entrypoint-initdb.d/setup-slave.sh
-    environment:
-      - MYSQL_ROOT_PASSWORD=S3cret
-      - MYSQL_USER=my_db_user
-      - MYSQL_DATABASE=my_db
-      - MYSQL_PASSWORD=S3cret
+    env_file:
+      - .env.database
     networks:
       - mynetwork
     command: >

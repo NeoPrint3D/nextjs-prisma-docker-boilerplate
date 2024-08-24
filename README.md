@@ -66,11 +66,8 @@ database_slave[SLAVE_NUMBER]:
   volumes:
     - mysqldata_slave[SLAVE_NUMBER]:/var/lib/mysql
     - ./mysql/scripts/setup-slave.sh:/docker-entrypoint-initdb.d/setup-slave.sh
-  environment:
-    - MYSQL_ROOT_PASSWORD=S3cret
-    - MYSQL_USER=my_db_user
-    - MYSQL_DATABASE=my_db
-    - MYSQL_PASSWORD=S3cret
+  env_file:
+    - .env.database
   networks:
     - mynetwork
   command: >
@@ -79,31 +76,26 @@ database_slave[SLAVE_NUMBER]:
     --log_bin=mysql-bin
     --binlog_do_db=my_db
   healthcheck:
-    test:
-      [
-        "CMD",
-        "mysqladmin",
-        "ping",
-        "-h",
-        "localhost",
-        "-u",
-        "my_db_user",
-        "--password=S3cret",
-      ]
+    test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
     interval: 10s
     timeout: 5s
     retries: 5
 ```
 
 2. Replace all [SLAVE_NUMBER] with the actual desired number
-3. Make sure to add the corresponding volume to the docker-compose.yml and docker-compose.dev.yml
+3. Make sure to add the corresponding volume and health check to the docker-compose.yml and docker-compose.dev.yml
 
 ```yml
 volumes:
   mysqldata_master:
   mysqldata_slave1:
   [ADD HERE]
+
+database_slave[SLAVE_NUMBER]:
+    condition: service_healthy
 ```
+
+5. Add the new replica urls to .env.prod and .env.local
 
 # Security
 

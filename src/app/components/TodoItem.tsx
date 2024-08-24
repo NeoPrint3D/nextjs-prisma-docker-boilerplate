@@ -16,7 +16,7 @@ export function TodoItem({ todo }: { todo: Todo }) {
           type="checkbox"
           checked={todo.done}
           className=" checkbox"
-          onInput={() => {
+          onChange={() => {
             toggleTodo(todo.id, !todo.done);
           }}
         />

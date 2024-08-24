@@ -27,7 +27,7 @@ npm install
 
 --- Start of Terminal 2 ---
 
-sh db.sh
+docker compose -f docker-compose.dev.yml up
 
 --- End of Terminal 2 ---
 
@@ -48,6 +48,61 @@ npm run dev
 
 docker compose up -d
 
+```
+
+# How to add more replicas
+
+1. Copy This and paste it in docker-compose.yml and docker-compose.dev.yml
+
+```yml
+database_slave[SLAVE_NUMBER]:
+  image: mysql:8.0.30
+  container_name: "database_slave[SLAVE_NUMBER]"
+  depends_on:
+    database_master:
+      condition: service_healthy
+  ports:
+    - 3308:3306
+  volumes:
+    - mysqldata_slave[SLAVE_NUMBER]:/var/lib/mysql
+    - ./mysql/scripts/setup-slave.sh:/docker-entrypoint-initdb.d/setup-slave.sh
+  environment:
+    - MYSQL_ROOT_PASSWORD=S3cret
+    - MYSQL_USER=my_db_user
+    - MYSQL_DATABASE=my_db
+    - MYSQL_PASSWORD=S3cret
+  networks:
+    - mynetwork
+  command: >
+    --server-id=[SLAVE_NUMBER + 1]
+    --default-authentication-plugin=mysql_native_password
+    --log_bin=mysql-bin
+    --binlog_do_db=my_db
+  healthcheck:
+    test:
+      [
+        "CMD",
+        "mysqladmin",
+        "ping",
+        "-h",
+        "localhost",
+        "-u",
+        "my_db_user",
+        "--password=S3cret",
+      ]
+    interval: 10s
+    timeout: 5s
+    retries: 5
+```
+
+2. Replace all [SLAVE_NUMBER] with the actual desired number
+3. Make sure to add the corresponding volume to the docker-compose.yml and docker-compose.dev.yml
+
+```yml
+volumes:
+  mysqldata_master:
+  mysqldata_slave1:
+  [ADD HERE]
 ```
 
 # Security

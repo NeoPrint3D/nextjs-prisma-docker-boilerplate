@@ -1,0 +1,20 @@
+# Use Node.js 20 Alpine as the base image
+FROM node:20-alpine
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package files and install dependencies
+COPY package.json package-lock.json ./
+COPY .env.prod .env
+RUN npm ci
+
+# Install Prisma and dotenv
+RUN npm i prisma dotenv-cli --save
+
+# Copy Prisma schema and generate client
+COPY prisma ./prisma/
+RUN npx prisma generate
+
+# Run Prisma migrations and keep the container alive
+CMD ["/bin/sh", "-c", "npx dotenv -e .env -- prisma migrate deploy"]

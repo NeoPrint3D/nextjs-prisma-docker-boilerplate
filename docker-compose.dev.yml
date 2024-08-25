@@ -58,6 +58,17 @@ services:
       --default-authentication-plugin=mysql_native_password
       --log_bin=mysql-bin
       --binlog_do_db=my_db
+  redis:
+    image: redis:7.4
+    container_name: "redis"
+    # restart: unless-stopped
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+    networks:
+      - mynetwork
+    command: redis-server --appendonly yes
 
 networks:
   mynetwork:
@@ -66,3 +77,5 @@ volumes:
   mysqldata_master:
   mysqldata_slave1:
   mysqldata_slave2:
+  redis_data:
+

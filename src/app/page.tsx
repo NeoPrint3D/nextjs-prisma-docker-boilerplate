@@ -1,4 +1,4 @@
-import { getTodos } from "@/app/actions/form";
+import { getTodos } from "@/app/actions/todo";
 import { TodoForm } from "@/app/components/TodoForm";
 import { TodoItem } from "./components/TodoItem";
 import { Suspense } from "react";

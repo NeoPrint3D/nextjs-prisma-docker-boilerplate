@@ -21,9 +21,9 @@ CURRENT_POS=$(echo "$MASTER_STATUS" | grep Position | awk '{print $2}')
 # Configure slave
 mysql -u root -p"$MYSQL_ROOT_PASSWORD" <<EOSQL
 CHANGE MASTER TO 
-    MASTER_HOST='database_master',
-    MASTER_USER='mydb_slave_user',
-    MASTER_PASSWORD='mydb_slave_pwd',
+    MASTER_HOST='$MASTER_HOST',
+    MASTER_USER='$MASTER_USER',
+    MASTER_PASSWORD='$MASTER_PASSWORD',
     MASTER_LOG_FILE='$CURRENT_LOG',
     MASTER_LOG_POS=$CURRENT_POS;
 START SLAVE;

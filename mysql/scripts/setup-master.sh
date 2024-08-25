@@ -9,8 +9,8 @@ done
 
 # Create replication user with necessary privileges
 mysql -u root -p"$MYSQL_ROOT_PASSWORD" <<-EOSQL
-    CREATE USER IF NOT EXISTS 'mydb_slave_user'@'%' IDENTIFIED BY 'mydb_slave_pwd';
-    GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'mydb_slave_user'@'%';
+    CREATE USER IF NOT EXISTS '$MASTER_USER'@'%' IDENTIFIED BY '$MASTER_PASSWORD';
+    GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO '$MASTER_USER'@'%';
     FLUSH PRIVILEGES;
 EOSQL
 

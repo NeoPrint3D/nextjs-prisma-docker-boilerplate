@@ -25,7 +25,7 @@ export const action = async <T>(
     const jobFinished = job.waitUntilFinished(actionQueueEvents);
 
     const timeout = new Promise<undefined>(
-      (_, reject) => setTimeout(() => reject(new Error("Job timed out")), 2500) // Increased timeout
+      (_, reject) => setTimeout(() => reject(new Error("Job timed out")), 5000) // Increased timeout
     );
 
     const result = await Promise.race([jobFinished, timeout]);

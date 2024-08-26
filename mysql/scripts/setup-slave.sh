@@ -18,12 +18,12 @@ MASTER_STATUS=$(mysql -h database_master -u mydb_slave_user -pmydb_slave_pwd -e 
 CURRENT_LOG=$(echo "$MASTER_STATUS" | grep File | awk '{print $2}')
 CURRENT_POS=$(echo "$MASTER_STATUS" | grep Position | awk '{print $2}')
 
-# Configure slave
+# Configure slave change the host thorugh env variable later
 mysql -u root -p"$MYSQL_ROOT_PASSWORD" <<EOSQL
 CHANGE MASTER TO 
-    MASTER_HOST='$MASTER_HOST',
-    MASTER_USER='$MASTER_USER',
-    MASTER_PASSWORD='$MASTER_PASSWORD',
+    MASTER_HOST='database_master',
+    MASTER_USER='mydb_slave_user',
+    MASTER_PASSWORD='mydb_slave_pwd',
     MASTER_LOG_FILE='$CURRENT_LOG',
     MASTER_LOG_POS=$CURRENT_POS;
 START SLAVE;

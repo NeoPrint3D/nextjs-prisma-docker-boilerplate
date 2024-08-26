@@ -34,7 +34,7 @@ docker compose -f docker-compose.dev.yml up
 
 --- Start of Terminal 1 ---
 
-npm run db:setup # setups the database with prisma and mysql
+npm run db:migrate setup # setups the database with prisma and mysql
 npm run dev
 
 --- End of Terminal 1 ---

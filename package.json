@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "dotenv -e .env.local -- next dev",
+    "dev": "dotenv -e .env.local -- next dev & dotenv -e .env.local -- node --import=tsx --watch src/workers/todo.worker.ts",
     "build": "next build",
     "start": "dotenv -e .env.local -- next start",
     "lint": "next lint",

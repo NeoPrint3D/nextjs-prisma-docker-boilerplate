@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { action } from "@/lib/actionWrapper";
 
 export async function getTodos() {
-  const todos = await prisma.todo.findMany();
+  const todos = await prisma.todo.findMany({});
   return todos;
 }
 
